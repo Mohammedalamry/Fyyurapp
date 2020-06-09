@@ -1,0 +1,159 @@
+{% extends 'layouts/main.html' %}
+{% block title %}New Venue{% endblock %}
+{% block content %}
+  <div class="form-wrapper">
+    <form method="post" class="form"  action="/venues/create">
+      <h3 class="form-heading">List a new venue <a href="{{ url_for('index') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+      <div class="form-group">
+        <label for="name">Name</label>
+        {{ form.name(class_ = 'form-control', autofocus = true) }}
+      </div>
+      <div class="form-group">
+          <label>City & State</label>
+          <div class="form-inline">
+            <div class="form-group">
+              {{ form.city_venue(class_ = 'form-control m1', placeholder='City', autofocus = true) }}
+            </div>
+            <div class="form-group">
+              {{ form.state_venue(class_ = 'form-control', placeholder='State', autofocus = true) }}
+            </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <label for="address"> street Number & street Name </label>
+      <div class="form-inline">
+      <div class="form-group">
+        
+        {{ form.street_number(class_ = 'form-control',  placeholder='street Number', autofocus = true) }}
+      </div>
+      <div class="form-group">
+         
+        {{ form.street_name(class_ = 'form-control',placeholder='street Name', autofocus = true) }}
+      </div>
+    </div> 
+  </div> 
+      <div class="form-group">
+          <label for="phone">Phone</label>
+          {{ form.phone(class_ = 'form-control', placeholder='xxx-xxx-xxxx', autofocus = true,  maxlength=12) }}
+        </div> 
+      <div class="form-group">
+        <label for="genres">Genres</label>
+        <small>Ctrl+Click to select multiple</small>
+        {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas' ,autofocus = true) }}
+      </div>
+
+      <div class="form-group">
+        <label for="genres">Image Link</label>
+        {{ form.image_link(class_ = 'form-control', placeholder='http://',  autofocus = true) }}
+      </div>
+        
+      <div class="form-group">
+        <label for="genres"> Website Link</label>
+        {{ form.website_link(class_ = 'form-control', placeholder='http://',  autofocus = true) }}
+      </div>
+
+      <div class="form-group">
+        <label for="genres">Facebook Link</label>
+        {{ form.facebook_link(class_ = 'form-control', placeholder='http://',  autofocus = true )   }}
+      </div>
+
+      <div class="form-group"  id="checky">
+        
+       <input type="checkbox" name="checkbox"  value="{{True}}"  >Mark this box if you seeking to a new talent
+       
+      </div>
+      <div id="popmessage"   class="form-group  ">
+        <label >   Entter your Message for seeking to a new talent  </label>
+      
+      </div>
+        <div class="form-group"  id = "seekingtalent" >
+         
+       <textarea class="form-control "  name="seekingtalent" minlength=10,   required  cols="30" rows="3">
+
+          </textarea>  
+          
+         <!-- {{form.textarea(class_ = 'form-control',   autofocus = True,  cols="30" ,rows="3")            }} -->
+
+
+        </div>
+
+      <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+    </form>
+  </div>
+{% endblock %}
+
+{% block script %} 
+
+<script> 
+          // document.getElementById('seekingtalent').className = 'hidden';
+//Section to definded  Varablie of  id and class in Html file to connet Html with javacript
+ var popmessage = document.querySelector('#popmessage');
+ var poptextarea = document.querySelector('#seekingtalent');
+ var checkbox = document.querySelector('input[value="True"]');
+//  var popmessag = document.querySelector('.m1');
+//  console.log(popmessag.value)
+ poptextarea.style.visibility = 'hidden';
+ popmessage.style.visibility =  'hidden';
+//  poptextarea.style.visibility = 'hidden';
+//function  to give a user option to seeking venu
+
+ checkbox.addEventListener('change',()=>{  
+  if(checkbox.checked){ 
+  checkbox.value = true;
+  popmessage.style.visibility  = 'visible';
+  poptextarea.style.visibility = 'visible';
+
+} else{ 
+  checkbox.value = false;
+  popmessage.style.visibility = 'hidden';
+  poptextarea.style.visibility = 'hidden';
+
+}
+
+
+
+                  } )  
+       console.log(poptextarea.value);
+                //  console.log(form.get('name'));            
+//use Fetch Ajax to manpulaite data 
+//  var form1 = document.querySelector('.form').onsubmit =(e)=>{
+//     e.preventDefault();
+ 
+//     fetch('/venues/create', 
+//     {    
+//   method: 'POST',
+//   headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   body: JSON.stringify({
+  
+  
+//   })
+  
+  
+  
+//   }).then((response)=>{
+  
+//   return response.json();
+  
+//   }).then((jsonResponese)=>{      
+  
+//   console.log(jsonResponese);
+  
+//   }).catch(()=>{            
+  
+  
+  
+    
+//   })
+  
+  
+//     };
+  
+  
+
+
+
+</script>
+{% endblock %}
+<!-- middlname =   ArtisiMiddlename.query.filter(Artist.id==ArtisiMiddlename.artist_id and Show.venue_id==venue_id).all() -->
