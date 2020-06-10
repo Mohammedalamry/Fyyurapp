@@ -322,10 +322,10 @@ def show_venue(venue_id):
   # TODO: replace with real venue data from the venues table, using venue_id
   datavenue= Venue.query.filter(Venue.id==venue_id).first() 
 
-  upshowcount = Show.query.filter(Show.venue_id == venue_id).filter(Show.star_date > datetime.utcnow()).count()
-  pastshowcount = Show.query.filter(Show.venue_id == venue_id).filter(Show.star_date < datetime.utcnow()).count()
-  past_shows=  db.session.query(Artist,Show).join(Show).filter(Show.venue_id == venue_id).filter(Show.star_date < datetime.utcnow()).all()
-  upcoming_shows = db.session.query(Artist,Show).join(Show).filter(Show.venue_id == venue_id).filter(Show.star_date > datetime.utcnow()).all()
+  upshowcount = Show.query.join(Artist.Show_list).filter(Show.venue_id == venue_id).filter(Show.star_date > datetime.utcnow()).count()
+  pastshowcount = Show.query.join(Artist.Show_list).filter(Show.venue_id == venue_id).filter(Show.star_date < datetime.utcnow()).count()
+  past_shows=  db.session.query(Artist,Show).join(Artist.Show_list).filter(Show.venue_id == venue_id).filter(Show.star_date < datetime.utcnow()).all()
+  upcoming_shows = db.session.query(Artist,Show).join(Artist.Show_list).filter(Show.venue_id == venue_id).filter(Show.star_date > datetime.utcnow()).all()
  
 
 
@@ -568,11 +568,17 @@ def search_artists():
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
   dataar =  Artist.query.filter(Artist.id == artist_id).first()
-  upshowcount = Show.query.filter(Show.artist_id == artist_id).filter(Show.star_date > datetime.utcnow()).count()
-  pastshowcount = Show.query.filter(Show.artist_id == artist_id).filter(Show.star_date < datetime.utcnow()).count()
+  upshowcount = db.session.query(Venue.name,Venue.image_link,Show).join(Venue.Show_list).filter(Show.artist_id == artist_id).filter(Show.star_date > datetime.utcnow()).count() 
+  pastshowcount = db.session.query(Venue.name,Venue.image_link,Show).join(Venue.Show_list).filter(Show.artist_id == artist_id).filter(Show.star_date < datetime.utcnow()).count() 
   # upcoming_shows= Show.query.filter(Show.artist_id == artist_id).filter(Show.star_date > datetime.utcnow()).all()
-  past_shows=  db.session.query(Venue.name,Venue.image_link,Show).join(Show).filter(Show.artist_id == artist_id).filter(Show.star_date < datetime.utcnow()).all()
-  upcoming_shows = db.session.query(Venue.name,Venue.image_link,Show).join(Show).filter(Show.artist_id == artist_id).filter(Show.star_date > datetime.utcnow()).all()
+  # test = db.session.query(Artist).join(Show, Show.artist_id == artist_id  ).filter(Show.artist_id == artist_id).filter(Show.star_date > datetime.utcnow()).all() 
+  # print(test)
+  past_shows=  db.session.query(Venue.name,Venue.image_link,Show).join(Venue.Show_list).filter(Show.artist_id == artist_id).filter(Show.star_date < datetime.utcnow()).all()
+  # past_showsmh=  db.session.query(Venue.name,Venue.image_link,Show).join(Venue.Show_list).filter(Show.artist_id == artist_id).filter(Show.star_date < datetime.utcnow()).count() 
+  # print(past_showsmh) 
+  upcoming_shows = db.session.query(Venue.name,Venue.image_link,Show).join(Venue.Show_list).filter(Show.artist_id == artist_id).filter(Show.star_date > datetime.utcnow()).all()
+  # joinvenuandatrist = db.session.query(Venue,Artist).join(Artist).filter(Show.artist_id == artist_id).filter(Show.star_date > datetime.utcnow()).all()
+  # print(joinvenuandatrist)
   # c = dataar.count() upcoming_shows
   d = 0
   # print(past_shows[0].Show.venue_id)
