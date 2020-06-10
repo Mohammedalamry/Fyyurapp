@@ -7,8 +7,7 @@ dbPASS = os.environ.get('Mp')
 # Enable debug mode.
 DEBUG = True
 
-print(dbUSER)
-print(dbPASS)
+ 
 # Connect to the database 
 #postgres
 
